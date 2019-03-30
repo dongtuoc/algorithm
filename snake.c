@@ -10,12 +10,12 @@ typedef signed int		S32;
 typedef signed short	S16;
 typedef signed char		S8;
 
-#define SnakeLines   	(30) /* the range of snake runs */
-#define SnakeNums   	(30)
-#define SumLine 		(SnakeLines+2)
-#define SumNum 			(SnakeNums+2)
+#define SnakeLines   (30) /* the range of snake runs */
+#define SnakeNums   (30)
+#define SumLine 	(SnakeLines+2)
+#define SumNum 		(SnakeNums+2)
 
-#define ScoreStep (10)
+#define ScoreStep 	(10)
 /* key defination */
 #define Enter 		(0x0d)
 #define Huanhang	(0x0a)
@@ -23,7 +23,7 @@ typedef signed char		S8;
 #define Left 		(0x4b)
 #define Right 		(0x4d)
 #define Down 		(0x50)
-#define ESC         (27)
+#define ESC			(27)
 
 /* color defination */
 #define Blue      9
@@ -31,8 +31,6 @@ typedef signed char		S8;
 #define Red 	  12
 #define Yellow    6
 #define White     0xF
-
-
 
 /* define a FoodIsThereState_E to tell program the food is eaten or not*/
 typedef enum
@@ -84,7 +82,6 @@ DOT_S Body[SnakeLines*SnakeNums] = {0};
 DotType_E DotType[SumLine+5][SumNum+5]={0};
 FoodIsThereState_E FoodIsThereFlag=ifalse;
 
-
 static void AllInitail(void)
 {
 	Score = 0;
@@ -95,7 +92,6 @@ static void AllInitail(void)
 	memset(&Body[0],0x00,sizeof(Body));
 	memset(&DotType[0][0],0x00,sizeof(DotType));
 }
-
 
 static void gotoxy(U8 line, U8 num) 
 {
@@ -165,7 +161,7 @@ static void ShowRandomFood(void)
 	SetDotType(Food.line,Food.num,DotFood);
 	gotoxy(Food.line,Food.num);
 	SetConsoleTextAttribute(hOut, Red);	
-	printf("¡ï");
+	printf("Â¡Ã¯");
 	FoodIsThereFlag = itrue;
 }
 
@@ -177,7 +173,7 @@ static void ShowInitialSnake(void)
 	SetDotType(Head.line,Head.num,DotHead);
 	gotoxy(Head.line,Head.num);
 	SetConsoleTextAttribute(hOut, Yellow);	
-	printf("¡ñ");
+	printf("Â¡Ã±");
 	Tail.line = Head.line;
 	Tail.num = Head.num;
 	Snakelen = 1;
@@ -198,14 +194,14 @@ void ShowCityWall(void)
 			{
 				SetConsoleTextAttribute(hOut, Red);
 				gotoxy(linetemp,numtemp);
-				printf("¡õ");
+				printf("Â¡Ãµ");
 				SetDotType(linetemp,numtemp,DotWall);
 			}
 			else
 			{
 				SetConsoleTextAttribute(hOut, Green);
 				gotoxy(linetemp,numtemp);
-				printf("¡ö");
+				printf("Â¡Ã¶");
 				SetDotType(linetemp,numtemp,DotIdle);
 			}
 		}
@@ -221,7 +217,7 @@ void Food2Head(U8 foodline,U8 foodnum)
 	NewHead(foodline,foodnum);
 	gotoxy(foodline, foodnum);
 	SetConsoleTextAttribute(hOut, Yellow);	
-	printf("¡ñ");
+	printf("Â¡Ã±");
 	SetDotType(foodline,foodnum,DotHead);
 	Snakelen++;
 }
@@ -234,7 +230,7 @@ void Head2Body(U8 headline,U8 headnum)
 	NewBody(headline,headnum);
 	gotoxy(headline, headnum);
 	SetConsoleTextAttribute(hOut, Yellow);	
-	printf("¡ð");
+	printf("Â¡Ã°");
 	SetDotType(headline,headnum,DotBody);
 	Bodylen++;
 }
@@ -245,7 +241,7 @@ void IdeHead2Body(U8 headline,U8 headnum)
 
 	gotoxy(headline, headnum);
 	SetConsoleTextAttribute(hOut, Yellow);	
-	printf("¡ð");
+	printf("Â¡Ã°");
 	SetDotType(headline,headnum,DotBody);
 }
 
@@ -256,7 +252,7 @@ void Idle2Head(U8 Idleline,U8 Idlenum)
 	NewHead(Idleline,Idlenum);
 	gotoxy(Idleline,Idlenum);
 	SetConsoleTextAttribute(hOut, Yellow);	
-	printf("¡ñ");	
+	printf("Â¡Ã±");	
 	SetDotType(Idleline,Idlenum,DotHead);
 }
 
@@ -267,14 +263,14 @@ void Dot2Idle(U8 line,U8 num)
 
 	gotoxy(line, num);
 	SetConsoleTextAttribute(hOut, Green);
-	printf("¡ö");
+	printf("Â¡Ã¶");
 	SetDotType(line,num,DotIdle);
 }
 
 /* idle eaten, update body */
 void IdleUpdateBody(void)
 {
-	U8 i=0;
+	U8 i;
 
 	if (0 == Bodylen)
 		return;
@@ -452,7 +448,6 @@ int main(void)
 	loop:for(;;)
 	{
 		AllInitail();
-
 		ShowCityWall();
 
 		SetConsoleTextAttribute(hOut, Red);
@@ -465,7 +460,6 @@ int main(void)
 		gotoxy(SumLine+4,2);
 		printf("Email:dongtuoc@yeah.net");
 
-
 		if (FirstRun == itrue)
 		{
 			SetConsoleTextAttribute(hOut, Red);
@@ -476,9 +470,7 @@ int main(void)
 			{
 				key = GetInput();
 				if ((key==Enter)||(key==Huanhang))
-				{
 					break;
-				}
 			}
 		}
 		gotoxy(SumLine+2,16);
@@ -505,9 +497,7 @@ int main(void)
 			printf("%04d",Score);
 		
 			if (FoodIsThereFlag == ifalse)
-			{
 				ShowRandomFood();
-			}
 
 			gotoxy(SumLine+2,16+6);
 			key = GetInput();
