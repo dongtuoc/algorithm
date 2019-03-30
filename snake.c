@@ -3,12 +3,12 @@
 #include <time.h>
 #include <conio.h>
 
-typedef unsigned int  	U32;
+typedef unsigned int    U32;
 typedef unsigned short 	U16;
 typedef unsigned char 	U8;
-typedef signed int	    S32;
-typedef signed short	S16;
-typedef signed char	    S8;
+typedef signed int      S32;
+typedef signed short    S16;
+typedef signed char     S8;
 
 #define SnakeLines   	(30) /* the range of snake runs */
 #define SnakeNums   	(30)
@@ -19,11 +19,11 @@ typedef signed char	    S8;
 /* key defination */
 #define Enter 		(0x0d)
 #define Huanhang	(0x0a)
-#define Up		    (0x48)
+#define Up		(0x48)
 #define Left 		(0x4b)
 #define Right 		(0x4d)
 #define Down 		(0x50)
-#define ESC		    (27)
+#define ESC		(27)
 
 /* color defination */
 #define Blue      9
