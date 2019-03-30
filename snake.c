@@ -35,38 +35,38 @@ typedef signed char     S8;
 /* define a FoodIsThereState_E to tell program the food is eaten or not*/
 typedef enum
 {
-	idle,
-	itrue, /* not eaten, still there */
-	ifalse,/* Oops, food eaten */
-	iend,
+  idle,
+  itrue, /* not eaten, still there */
+  ifalse,/* Oops, food eaten */
+  iend,
 }FoodIsThereState_E;
 
 /* return a PlayRes_E according to the key you input during playing retro snake*/
 typedef enum
 {
-	YouAreDone=1,
-	YouAreExcllent,
-	YouAreStillYou,
-	WhoYouAre,
+  YouAreDone=1,
+  YouAreExcllent,
+  YouAreStillYou,
+  WhoYouAre,
 }PlayRes_E;
 
 /* define a DotType_E to distinguish different dots in RANG */
 typedef enum
 {
-	DotIdle,
-	DotHead,
-	DotBody,
-	DotTail,
-	DotFood,
-	DotWall,
-	DotEnd,
+  DotIdle,
+  DotHead,
+  DotBody,
+  DotTail,
+  DotFood,
+  DotWall,
+  DotEnd,
 }DotType_E;
 
 /* dot position defination */
 typedef struct 
 {
-	U8 line;
-	U8 num;
+  U8 line;
+  U8 num;
 }DOT_S;
 
 U16 Score=0;
@@ -84,100 +84,98 @@ FoodIsThereState_E FoodIsThereFlag=ifalse;
 
 static void AllInitail(void)
 {
-	Score = 0;
-	Snakelen=0;
-	Bodylen=0;
-	FoodIsThereFlag=ifalse;
+  Score = 0;
+  Snakelen=0;
+  Bodylen=0;
+  FoodIsThereFlag=ifalse;
 
-	memset(&Body[0],0x00,sizeof(Body));
-	memset(&DotType[0][0],0x00,sizeof(DotType));
+  memset(&Body[0],0x00,sizeof(Body));
+  memset(&DotType[0][0],0x00,sizeof(DotType));
 }
 
 static void gotoxy(U8 line, U8 num) 
 {
-    COORD pos = {(num-1)*2,line};
-    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleCursorPosition(hOut, pos);
+  COORD pos = {(num-1)*2,line};
+  HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+  SetConsoleCursorPosition(hOut, pos);
 }
 
 static void RandomAxy(U8 *line, U8 *num)
 {
-	srand(time(0));
-	*line = rand()%SnakeLines + 2;
-	srand(*line);
-	*num = rand()%SnakeNums + 2;
+  srand(time(0));
+  *line = rand()%SnakeLines + 2;
+  srand(*line);
+  *num = rand()%SnakeNums + 2;
 }
 
 void SetDotType(U8 line,U8 num,DotType_E type)
 {
-	DotType[line][num] = type;
+  DotType[line][num] = type;
 }
 
 U8 GetDotType(U8 line,U8 num)
 {
-	return (U8)DotType[line][num];
+  return (U8)DotType[line][num];
 }
 
 /* to renew a new head */
 void NewHead(U8 line, U8 num)
 {
-	if ((line >= 2)&&(line <= SnakeLines + 1))
-		Head.line = line;
-	if ((num >= 2)&&(line <= SnakeNums + 1))
-		Head.num = num;
+  if ((line >= 2)&&(line <= SnakeLines + 1))
+    Head.line = line;
+  if ((num >= 2)&&(line <= SnakeNums + 1))
+    Head.num = num;
 }
 
 /* to renew a new body, add new dot to body list */
 void NewBody(U8 line, U8 num)
 {
-	if ((line >= 2)&&(line <= SnakeLines + 1))
-		Body[Bodylen].line = line;
-	if ((num >= 2)&&(line <= SnakeNums + 1))
-		Body[Bodylen].num = num;
- }
+   if ((line >= 2)&&(line <= SnakeLines + 1))
+      Body[Bodylen].line = line;
+   if ((num >= 2)&&(line <= SnakeNums + 1))
+      Body[Bodylen].num = num;
+}
 
 U8 GetInput(void)
 {
-	return (U8)getch();
+   return (U8)getch();
 }
 
 /* only showed in idle range */
 static void ShowRandomFood(void)
 {
-	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+   HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	for(;;)
-	{
-		RandomAxy(&Food.line,&Food.num);
-		switch(GetDotType(Food.line,Food.num))
-		{
-			case DotIdle:
-				break;
-			default:
-				continue;
-		}
-		break;
-	}
-	SetDotType(Food.line,Food.num,DotFood);
-	gotoxy(Food.line,Food.num);
-	SetConsoleTextAttribute(hOut, Red);	
-	printf("¡ï");
-	FoodIsThereFlag = itrue;
+   for(;;)
+   {
+      RandomAxy(&Food.line,&Food.num);
+      switch(GetDotType(Food.line,Food.num))
+      {
+      case DotIdle:break;
+      default:continue;
+      }
+      break;
+   }
+   SetDotType(Food.line,Food.num,DotFood);
+   gotoxy(Food.line,Food.num);
+   SetConsoleTextAttribute(hOut, Red);	
+   printf("¡ï");
+   FoodIsThereFlag = itrue;
 }
 
 static void ShowInitialSnake(void)
 {
-	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+   HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	NewHead(SnakeLines/2,SnakeNums/2);
-	SetDotType(Head.line,Head.num,DotHead);
-	gotoxy(Head.line,Head.num);
-	SetConsoleTextAttribute(hOut, Yellow);	
-	printf("¡ñ");
-	Tail.line = Head.line;
-	Tail.num = Head.num;
-	Snakelen = 1;
-	Bodylen = 0;
+   NewHead(SnakeLines/2,SnakeNums/2);
+   SetDotType(Head.line,Head.num,DotHead);
+   gotoxy(Head.line,Head.num);
+   SetConsoleTextAttribute(hOut, Yellow);	
+   printf("¡ñ");
+   Tail.line = Head.line;
+   Tail.num = Head.num;
+   Snakelen = 1;
+   Bodylen = 0;
 }
 
 void ShowCityWall(void)
