@@ -13,40 +13,43 @@ int main()
 	resize(src, DownImg, Size(src.cols/2, src.rows/2));
 	imshow("source img", DownImg);
 
+	/* æ»¤æ³¢æ ¸è¶Šå¤§ï¼ŒåŸºæœ¬ä¸Šå›¾åƒå¤„ç†ä¹‹åè¶Šæ¨¡ç³Š */
+	/* å¹³å‡æ»¤æ³¢ æ ¸å¤§å°ä¸º3*3 */
 	Mat AverImg;
 	blur(DownImg, AverImg, Size(3, 3));
 	imshow("Average Img",AverImg);
 
-	/*ºË´óĞ¡Ô¼µÈÓÚsigmaµÄ3±¶ 3sigmaÖ®ÄÚÔ½ÓĞ99%µÄĞÅÏ¢*/
+	/*æ ¸å¤§å°çº¦ç­‰äºsigmaçš„3å€ 3sigmaä¹‹å†…è¶Šæœ‰99%çš„ä¿¡æ¯*/
 	Mat GausImg;
 	GaussianBlur(DownImg, GausImg, Size(5, 5), 0, 0);
 	imshow("GaussianBlur img", GausImg);
 
+	/* ä¸­å€¼æ»¤æ³¢ */
 	Mat MidumImg;
 	medianBlur(DownImg, MidumImg,3);
 	imshow("Median img", MidumImg);
 
-	/*SOBEL Ëã×Ó*/
+	/*SOBEL ç®—å­*/
 	Mat SobelImg;
 	Mat sobel_x, sobel_y, sobleall;
 	Sobel(DownImg, SobelImg, CV_16S, 1, 0);
 	convertScaleAbs(SobelImg, sobel_x);
-	imshow("Sobel X·½Ïò", sobel_x);
+	imshow("Sobel Xæ–¹å‘", sobel_x);
 
-	Sobel(DownImg, SobelImg, CV_16S, 0, 1);
+	//Sobel(DownImg, SobelImg, CV_16S, 0, 1);
 	convertScaleAbs(SobelImg, sobel_y);
-	imshow("Sobel Y·½Ïò", sobel_y);
+	imshow("Sobel Yæ–¹å‘", sobel_y);
 
 	addWeighted(sobel_x, 0.5, sobel_y, 0.5, 0, sobleall);
-	imshow("ÕûºÏºóÍ¼Ïñ img", sobel_y);
+	imshow("æ•´åˆåå›¾åƒ img", sobel_y);
 
-	/*cannyËã×Ó*/
+	/*cannyç®—å­*/
 	Mat CannyImg;
 	Canny(DownImg, CannyImg, 3, 9, 3);
-	imshow("CannyËã×Ó img", CannyImg);
+	imshow("Cannyç®—å­ img", CannyImg);
 
 
-	//¸ßË¹ÂË²¨ºóÊ¹ÓÃ´ó½òËã·¨Ğ§¹û¸üºÃ
+	//é«˜æ–¯æ»¤æ³¢åä½¿ç”¨å¤§æ´¥ç®—æ³•æ•ˆæœæ›´å¥½
 	const int channels[1] = { 0 };
 	const int histsize[1] = { 256 };
 	float pranges[2] = { 0,255 };
@@ -54,7 +57,7 @@ int main()
 	MatND hist;
 
 	calcHist(&GausImg, 1, channels, Mat(), hist, 1, histsize, ranges);
-	//ÏÔÊ¾Ö±·½Í¼ĞÅÏ¢
+	//æ˜¾ç¤ºç›´æ–¹å›¾ä¿¡æ¯
 	for (int i = 0; i < 256; ++i)
 	{
 		std::cout << "value" << i << " " << hist.at<float>(i) << std::endl;
@@ -69,9 +72,9 @@ int main()
 		line(dranImg, Point(j, dranImg.rows - 1), Point(j, dranImg.rows - 1 - value), Scalar(255, 0, 0));
 	}
 
-	imshow("»Ò¶ÈÖ±·½Í¼", dranImg);
+	imshow("ç°åº¦ç›´æ–¹å›¾", dranImg);
 
-	/*´ó½òËã·¨ Í¼Æ¬·Ö¸î*/
+	/*å¤§æ´¥ç®—æ³• å›¾ç‰‡åˆ†å‰²*/
 	Mat OTsu,gry;
 	cvtColor(GausImg,gry,COLOR_BGR2GRAY);
 	threshold(gry,OTsu,100,255, THRESH_OTSU);
