@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-
 l = [1,99,2,98,44,22,66,21,9,12,45,22,44]
 
 def selectsort(L):
