@@ -20,3 +20,6 @@ if __name__ == "__main__":
     print("l before:",l)
     insertsort(l)
     print("l after:",l)
+    
+    
+    
